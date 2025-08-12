@@ -1,0 +1,55 @@
+﻿{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "x64 Release",
+
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_CXX_STANDARD": "23",
+        "CMAKE_CXX_COMPILER": "icx.exe",
+        "CMAKE_CXX_FLAGS": "/O2 /tune:tigerlake /QxCORE-AVX512",
+        "CMAKE_LINKER": "lld-link.exe",
+        "CMAKE_CXX_COMPILER_FRONTEND_VARIANT": "Intel"
+
+        // на стр.340 dpc_dev_guide опции компилятора icx совместимые с cl
+        // march=native - без этого не работает в релизе с интринсиком _mm256_maskz_permutexvar_epi8 
+        // QxCOMMON-AVX512 - указание использовать AVX512 
+        // S - .asm файл в папке \out\build\x64 Release
+        // EHs - Exeption Handler, s - перехват только синхронных исключений в блоке try{}catch(...){} 
+        // без этого ключа не работают некоторые функции OpenCV
+        // march=native - пытается оптимизировать под процессор, на котором размещена ОС. (см. dpc_dev_guide)
+        // имеет другое обозначение на windows
+        // fp:fast - более агрессивные оптимизации операций с числами с плавающей запятой
+        // link 
+        // Gy
+        // Qoption
+        // OPT:REF
+        // -fuse-ld=lld
+      }
+    },
+    {
+      "name": "x64 Debug",
+
+      "cacheVariables": {
+        //"CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_STANDARD": "23"
+
+        // на стр.340 dpc_dev_guide опции компилятора icx совместимые с cl
+        // QxCOMMON-AVX512 - указание использовать AVX512 
+        // S - .asm файл в папке \out\build\x64 Release
+        // EHs - Exeption Handler, s - перехват только синхронных исключений в блоке try{}catch(...){} 
+        // без этого ключа не работают некоторые функции OpenCV
+        // march=native - пытается оптимизировать под процессор, на котором размещена ОС. (см. dpc_dev_guide)
+        // имеет другое обозначение на windows
+        // fp:fast - более агрессивные оптимизации операций с числами с плавающей запятой
+        // link 
+        // Gy
+        // Qoption
+        // OPT:REF
+        // -fuse-ld=lld
+      }
+    }
+  ]
+}
